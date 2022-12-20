@@ -17,7 +17,7 @@ void onChanATick() {
 }
 
 void setup() {
-    pinMode(TICK_CH_A_PIN, INPUT);
+    pinMode(TICK_CH_A_PIN, INPUT_PULLUP);
     pinMode(DIR_CH_B_PIN, INPUT);
     Serial.begin(9600);
 
