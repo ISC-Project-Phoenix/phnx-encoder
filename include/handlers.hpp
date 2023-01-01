@@ -10,6 +10,12 @@ enum class Direction {
     CCW
 };
 
+struct message{
+    uint8_t type; 
+    uint16_t len; 
+    uint8_t data[512];
+} __attribute__((packed));
+
 class Encoder {
 
     uint8_t chanA;

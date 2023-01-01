@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <handlers.hpp>
+#include <FlexCAN_T4.h>
 
 /// Changes state when encoder moves 1 Tick
 constexpr uint8_t TICK_CH_A_PIN = 23;
@@ -7,6 +8,7 @@ constexpr uint8_t TICK_CH_A_PIN = 23;
 constexpr uint8_t DIR_CH_B_PIN = 22;
 
 IntervalTimer findVel;
+FlexCAN_T4<CAN3, RX_SIZE_256, TX_SIZE_16> velMsg;
 
 static bool tickToRead = false;
 static bool msgToSend = false; 
@@ -39,6 +41,8 @@ void setup() {
     pinMode(DIR_CH_B_PIN, INPUT);
     Serial.begin(9600);
     findVel.begin(calcVel, INTERVAL);
+    velMsg.begin();
+    velMsg.setBaudRate(250000);
     attachInterrupt(digitalPinToInterrupt(TICK_CH_A_PIN), &onChanATick, CHANGE);
 }
 
