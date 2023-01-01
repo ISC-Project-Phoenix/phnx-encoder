@@ -1,5 +1,10 @@
 #pragma once
 
+const float INTERVAL = 100000; //microseconds
+const float GEAR_RATIO = 28.0/58.0; 
+const float WHEEL_DIAMETER = 0.35; //meters
+const float pi = 3.14; 
+
 enum class Direction {
     CW,
     CCW
@@ -10,14 +15,12 @@ class Encoder {
     uint8_t chanA;
     uint8_t chanB;
     int64_t counter{};
-    int64_t prevCounter{};
-    const int64_t TICKS_PER_REV;
-    const int64_t INTERVAL; //miliseconds 
-    const float GEAR_RATIO; 
     Direction dir;
 
 public:
-    Encoder(uint8_t chanA, uint8_t chanB) : chanA(chanA), chanB(chanB), dir(Direction::CW), TICKS_PER_REV(600), INTERVAL(100), GEAR_RATIO(28/58){}
+    float velocity; 
+    const int64_t TICKS_PER_REV;
+    Encoder(uint8_t chanA, uint8_t chanB) : chanA(chanA), chanB(chanB), dir(Direction::CW), TICKS_PER_REV(600), velocity(0.0){}
 
     int64_t tick() {
         auto aState = digitalRead(chanA);
@@ -34,19 +37,13 @@ public:
         return counter;
     }
 
-    float calcVel(){
-        int64_t displacement = counter - prevCounter; // displacement in Ticks
-        float enc_rev = displacement / TICKS_PER_REV; // # of encoder revolutions
-        float rpm = enc_rev * GEAR_RATIO * 10 * 60; // per second * 60 seconds in a minute
-        return rpm;
-    }
-
-    void getCurrentTick(int64_t currentTick){
-        prevCounter = counter;
-        counter = currentTick; 
+    int64_t getCounter(){
+        return counter; 
     }
 
     Direction getDir() {
         return dir;
     }
+
+
 };
