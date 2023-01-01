@@ -28,6 +28,7 @@ void calcVel(){//calculated per 0.1 second time intervals
     //distance in meters
     //velocity in meters per second
     encoder.velocity = (distance * 10); 
+    encoder.ticksSinceCAN = (displacement >= 0) ? displacement : -1 * displacement;
     msgToSend = true; 
     prevCounter = curCount; 
 }

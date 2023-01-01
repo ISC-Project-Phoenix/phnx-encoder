@@ -19,8 +19,9 @@ class Encoder {
 
 public:
     float velocity; 
+    uint16_t ticksSinceCAN; 
     const int64_t TICKS_PER_REV;
-    Encoder(uint8_t chanA, uint8_t chanB) : chanA(chanA), chanB(chanB), dir(Direction::CW), TICKS_PER_REV(600), velocity(0.0){}
+    Encoder(uint8_t chanA, uint8_t chanB) : chanA(chanA), chanB(chanB), dir(Direction::CW), TICKS_PER_REV(600), velocity(0.0), ticksSinceCAN(0){}
 
     int64_t tick() {
         auto aState = digitalRead(chanA);
